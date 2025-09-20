@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GiftTree - Send Flowers, Cakes & Gifts Online</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E91E63;
+            --secondary-color: #4CAF50;
+            --accent-color: #FF9800;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #FFF8F0;
+            --border-light: #E0E0E0;
+            --pink-gradient: linear-gradient(135deg, #E91E63 0%, #FF6090 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+
+        /* Desktop Header - Hidden on Mobile */
+        .desktop-header {
+            display: none;
+        }
+
+        /* Mobile Specific Styles */
+        .mobile-only {
+            display: block;
+        }
+
+        .desktop-only {
+            display: none;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-top-bar {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 12px;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-dark);
+            padding: 8px;
+        }
+
+        .mobile-logo {
+            flex: 1;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .mobile-search {
+            padding: 0 16px 12px;
+        }
+
+        .mobile-search-bar {
+            width: 100%;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 16px 10px 40px;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .mobile-search-icon {
+            position: absolute;
+            left: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+        }
+
+        .location-bar {
+            background: var(--pink-gradient);
+            color: white;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        /* Category Pills Mobile */
+        .category-pills {
+            background: white;
+            padding: 16px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .category-pills::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pill-container {
+            display: flex;
+            gap: 12px;
+            padding: 0 16px;
+        }
+
+        .category-pill {
+            background: white;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            white-space: nowrap;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .category-pill.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Mobile Hero Slider */
+        .mobile-slider {
+            background: white;
+            margin-bottom: 8px;
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .slider-container {
+            display: flex;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            background: var(--pink-gradient);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+
+        .slide-content {
+            position: relative;
+        }
+
+        .slide-1 {
+            background: url('banner/banner.jpeg') center/cover;
+        }
+
+        .slide-2 {
+            background: url('banner/banner2.jpg') center/cover;
+        }
+
+        .slide-3 {
+            background: url('banner/banner3.jpg') center/cover;
+        }
+
+        .slide-4 {
+            background: url('banner/banner4.jpg') center/cover;
+        }
+
+        .slide-content h2 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+
+        .slide-content p {
+            font-size: 15px;
+            opacity: 0.95;
+            margin-bottom: 18px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+
+        .slide-btn {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .slide-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: white;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Mobile Quick Actions Grid */
+        .quick-actions {
+            background: white;
+            padding: 20px 16px;
+            margin-bottom: 8px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .action-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: var(--pink-gradient);
+            color: white;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+        .action-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .action-label {
+            font-size: 12px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        /* Mobile Product Cards */
+        .section {
+            background: white;
+            margin-bottom: 8px;
+            padding: 20px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .section-link {
+            color: var(--primary-color);
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .products-scroll {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 16px;
+        }
+
+        .products-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .products-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .product-card-mobile {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+            width: 140px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .product-price {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .add-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Mobile Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 8px 0;
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            text-decoration: none;
+            color: #999;
+            font-size: 11px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 992px) {
+
+            /* Hide Mobile Elements */
+            .mobile-only {
+                display: none;
+            }
+
+            .desktop-only {
+                display: block;
+            }
+
+            .mobile-header,
+            .bottom-nav,
+            .category-pills {
+                display: none;
+            }
+
+            /* Show Desktop Header */
+            .desktop-header {
+                display: block;
+            }
+
+            body {
+                padding-bottom: 0;
+                background: white;
+            }
+
+            /* Desktop Top Bar */
+            .top-bar {
+                background: var(--primary-color);
+                color: white;
+                padding: 8px 0;
+                font-size: 13px;
+                text-align: center;
+            }
+
+            .top-bar .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            /* Desktop Main Header */
+            .main-header {
+                background: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                padding: 15px 0;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .header-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .logo h2 {
+                color: var(--primary-color);
+                font-weight: 700;
+                margin: 0;
+            }
+
+            .search-container {
+                flex: 1;
+                max-width: 500px;
+                margin: 0 30px;
+                position: relative;
+            }
+
+            .search-bar {
+                width: 100%;
+                border: 2px solid var(--primary-color);
+                border-radius: 25px;
+                padding: 12px 20px 12px 45px;
+                font-size: 14px;
+                outline: none;
+            }
+
+            .search-icon {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--primary-color);
+                font-size: 16px;
+            }
+
+            /* Desktop Navigation */
+            .main-nav {
+                background: #f8f9fa;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .nav-menu {
+                display: flex;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 15px 25px;
+                color: var(--text-dark);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 15px;
+                transition: all 0.3s;
+            }
+
+            .nav-menu a:hover {
+                background: var(--primary-color);
+                color: white;
+            }
+
+
+
+            /* Desktop Product Grid */
+            .products-row {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .product-card-mobile {
+                width: 100%;
+                transition: transform 0.3s;
+            }
+
+            .product-card-mobile:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            }
+
+            .product-image {
+                height: 200px;
+            }
+
+            /* Desktop Slider */
+            .mobile-slider {
+                height: 400px;
+                margin-bottom: 40px;
+            }
+
+            /* Desktop Sections */
+            .section {
+                padding: 40px 0;
+                margin-bottom: 0;
+            }
+
+            .section-header {
+                padding: 0 20px;
+                margin-bottom: 30px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            /* Quick Actions Desktop */
+            .quick-actions {
+                padding: 40px 20px;
+            }
+
+            .actions-grid {
+                grid-template-columns: repeat(8, 1fr);
+                gap: 30px;
+            }
+
+            .action-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+
+            .action-icon img {
+                border-radius: 16px;
+            }
+
+            .action-label {
+                font-size: 14px;
+            }
+        }
+
+        /* Tablet Styles */
+        @media (min-width: 768px) and (max-width: 991px) {
+            .actions-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .products-row {
+                flex-wrap: nowrap;
+            }
+
+            .product-card-mobile {
+                width: 180px;
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (min-width: 992px) {
+            .toast {
+                bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Desktop Header (Hidden on Mobile) -->
+    <div class="desktop-only">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="container">
+                <div class="left-info">
+                    <span><i class="fas fa-truck"></i> Free Delivery Available</span>
+                    <span><i class="fas fa-clock"></i> Same Day Delivery</span>
+                </div>
+                <div class="right-info">
+                    <span><i class="fas fa-phone"></i> Call: +91-9876543210</span>
+                    <span><i class="fas fa-envelope"></i> support@gifttree.com</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Header -->
+        <header class="main-header desktop-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h2>My Gift Tree</h2>
+                    </div>
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-bar" placeholder="Search for flowers, cakes, gifts...">
+                    </div>
+                    <div class="header-actions">
+                        <a href="#" class="header-btn">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Select City
+                        </a>
+                        <a href="#" class="header-btn">
+                            <i class="fas fa-user"></i>
+                            Account
+                        </a>
+                        <a href="#" class="header-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Desktop Navigation -->
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="nav-menu">
+                    <li><a href="#">Flowers</a></li>
+                    <li><a href="#">Cakes</a></li>
+                    <li><a href="#">Plants</a></li>
+                    <li><a href="#">Gifts</a></li>
+                    <li><a href="#">Combos</a></li>
+                    <li><a href="#">Personalised</a></li>
+                    <li><a href="#">Birthday</a></li>
+                    <li><a href="#">Anniversary</a></li>
+                    <li><a href="#">Valentine</a></li>
+                    <li><a href="#">Same Day</a></li>
+                </ul>
+            </div>
+        </nav>
+
+
+    </div>
+
+    <!-- Mobile Header (Hidden on Desktop) -->
+    <header class="mobile-header mobile-only">
+        <div class="mobile-top-bar">
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="mobile-logo">GiftTree</div>
+            <button class="menu-toggle">
+                <i class="fas fa-bell"></i>
+            </button>
+        </div>
+        <div class="mobile-search">
+            <div style="position: relative;">
+                <i class="fas fa-search mobile-search-icon"></i>
+                <input type="text" class="mobile-search-bar" placeholder="Search flowers, cakes, gifts...">
+            </div>
+        </div>
+        <div class="location-bar">
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Deliver to: Delhi 110001</span>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- Category Pills (Mobile Only) -->
+    <div class="category-pills mobile-only">
+        <div class="pill-container">
+            <button class="category-pill active">All</button>
+            <button class="category-pill">Flowers</button>
+            <button class="category-pill">Cakes</button>
+            <button class="category-pill">Plants</button>
+            <button class="category-pill">Gifts</button>
+            <button class="category-pill">Combos</button>
+            <button class="category-pill">Birthday</button>
+            <button class="category-pill">Anniversary</button>
+            <button class="category-pill">Valentine</button>
+        </div>
+    </div>
+
+    <!-- Mobile Slider (Mobile Only) -->
+    <div class="mobile-slider">
+        <div class="slider-container" id="sliderContainer">
+            <div class="slide slide-1">
+            </div>
+            <div class="slide slide-2">
+            </div>
+            <div class="slide slide-3">
+            </div>
+            <div class="slide slide-4">
+            </div>
+        </div>
+        <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="container">
+            <div class="actions-grid">
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <img src="category/birthday.png" alt="Birthday">
+                    </div>
+                    <span class="action-label">Birthday</span>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <img src="category/Anniversary.jpg" alt="Anniversary">
+                    </div>
+                    <span class="action-label">Anniversary</span>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <img src="category/flowers.webp" alt="Flowers">
+                    </div>
+                    <span class="action-label">Flowers</span>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <img src="category/gifts.webp" alt="Gifts">
+                    </div>
+                    <span class="action-label">Gifts</span>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <img src="category/cake.webp" alt="Cakes">
+                    </div>
+                    <span class="action-label">Cakes</span>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <img src="category/plant.webp" alt="Plants">
+                    </div>
+                    <span class="action-label">Plants</span>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <img src="category/combo.webp" alt="Combos">
+                    </div>
+                    <span class="action-label">Combos</span>
+                </a>
+                <a href="#" class="action-item">
+                    <div class="action-icon">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <span class="action-label">More</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Best Sellers Section -->
+    <div class="section">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title">Best Sellers</h3>
+                <a href="#" class="section-link">View All →</a>
+            </div>
+            <div class="products-scroll">
+                <div class="products-row">
+                    <div class="product-card-mobile">
+                        <img src="rose.webp" alt="Red Roses" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Red Roses Bouquet</div>
+                            <div class="product-price">₹899</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="chocko cake.jpg" alt="Chocolate Cake" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Chocolate Truffle Cake</div>
+                            <div class="product-price">₹649</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="bomboo.webp" alt="Lucky Bamboo" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Lucky Bamboo Plant</div>
+                            <div class="product-price">₹399</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="gift.webp" alt="Gift Hamper" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Special Gift Hamper</div>
+                            <div class="product-price">₹1,299</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trending Gifts Section -->
+    <div class="section">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title">Trending Gifts</h3>
+                <a href="#" class="section-link">View All →</a>
+            </div>
+            <div class="products-scroll">
+                <div class="products-row">
+                    <div class="product-card-mobile">
+                        <img src="teddy.webp" alt="Teddy Bear" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Cute Teddy Bear</div>
+                            <div class="product-price">₹599</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="watch.jpg" alt="Watch Set" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Couple Watch Set</div>
+                            <div class="product-price">₹2,499</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="perfume.webp" alt="Perfume" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Premium Perfume Set</div>
+                            <div class="product-price">₹1,899</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="gift.webp" alt="Gift Set" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Special Gift Set</div>
+                            <div class="product-price">₹3,499</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop by Occasion Section -->
+    <div class="section" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title">Shop by Occasion</h3>
+                <a href="#" class="section-link">View All →</a>
+            </div>
+            <div class="products-scroll">
+                <div class="products-row">
+                    <div class="product-card-mobile">
+                        <img src="category/birthday.png" alt="Birthday Gifts" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Birthday Specials</div>
+                            <div class="product-price">Starting ₹299</div>
+                            <button class="add-btn">SHOP NOW</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="category/Anniversary.jpg" alt="Anniversary Gifts" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Anniversary Combos</div>
+                            <div class="product-price">Starting ₹599</div>
+                            <button class="add-btn">SHOP NOW</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="rose.webp" alt="Valentine Gifts" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Valentine Special</div>
+                            <div class="product-price">Starting ₹499</div>
+                            <button class="add-btn">SHOP NOW</button>
+                        </div>
+                    </div>
+                    <div class="product-card-mobile">
+                        <img src="category/combo.webp" alt="Wedding Gifts" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">Wedding Collection</div>
+                            <div class="product-price">Starting ₹999</div>
+                            <button class="add-btn">SHOP NOW</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Choose Us Section -->
+    <div class="section">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title">Why Choose GiftTree?</h3>
+            </div>
+            <div class="features-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; padding: 0 20px;">
+                <div class="feature-card"
+                    style="text-align: center; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <div
+                        style="width: 60px; height: 60px; background: var(--pink-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 24px;">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-dark);">Same Day Delivery</h4>
+                    <p style="color: var(--text-light); font-size: 14px;">Order before 5 PM and get your gifts delivered
+                        the same day</p>
+                </div>
+                <div class="feature-card"
+                    style="text-align: center; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <div
+                        style="width: 60px; height: 60px; background: var(--secondary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 24px;">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-dark);">Fresh & Quality</h4>
+                    <p style="color: var(--text-light); font-size: 14px;">100% fresh flowers and premium quality
+                        products guaranteed</p>
+                </div>
+                <div class="feature-card"
+                    style="text-align: center; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <div
+                        style="width: 60px; height: 60px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 24px;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4 style="margin-bottom: 10px; color: var(--text-dark);">Trusted by Millions</h4>
+                    <p style="color: var(--text-light); font-size: 14px;">Over 5 million happy customers across India
+                        trust us</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bottom-nav mobile-only">
+        <div class="nav-items">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-store"></i>
+                <span>Shop</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Reminder</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-search"></i>
+                <span>Search</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>My Orders</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-bars"></i>
+                <span>More</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            const sliderContainer = document.getElementById('sliderContainer');
+            sliderContainer.style.transform = `translateX(-${index * 100}%)`;
+
+            // Update dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            if (dots[index]) {
+                dots[index].classList.add('active');
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // Auto-slide every 4 seconds
+        setInterval(nextSlide, 4000);
+
+        // Add click handlers to dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Cart functionality
+        let cartCount = 0;
+
+        function addToCart() {
+            cartCount++;
+            showToast('Item added to cart!');
+
+            // Haptic feedback for mobile
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Category pill selection
+        const pills = document.querySelectorAll('.category-pill');
+        pills.forEach(pill => {
+            pill.addEventListener('click', function () {
+                pills.forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Auto-sliding banner for mobile
+        if (window.innerWidth < 992) {
+            let currentSlide = 0;
+            const slides = 3;
+            const sliderContainer = document.getElementById('sliderContainer');
+            const dots = document.querySelectorAll('.dot');
+
+            function updateSlider() {
+                if (sliderContainer) {
+                    sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentSlide);
+                    });
+                }
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides;
+                updateSlider();
+            }
+
+            // Auto slide every 3 seconds
+            setInterval(nextSlide, 3000);
+
+            // Touch gestures for slider
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            if (sliderContainer) {
+                sliderContainer.addEventListener('touchstart', e => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+
+                sliderContainer.addEventListener('touchend', e => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                });
+            }
+
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    nextSlide();
+                }
+                if (touchEndX > touchStartX + 50) {
+                    currentSlide = (currentSlide - 1 + slides) % slides;
+                    updateSlider();
+                }
+            }
+        }
+
+        // Smooth horizontal scroll for mobile product cards
+        const productScrolls = document.querySelectorAll('.products-scroll');
+        productScrolls.forEach(scroll => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            scroll.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - scroll.offsetLeft;
+                scrollLeft = scroll.scrollLeft;
+            });
+
+            scroll.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+
+            scroll.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+
+            scroll.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scroll.offsetLeft;
+                const walk = (x - startX) * 2;
+                scroll.scrollLeft = scrollLeft - walk;
+            });
+        });
+
+        // Active navigation item
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Search bar interactions
+        const searchBars = document.querySelectorAll('.mobile-search-bar, .search-bar');
+        searchBars.forEach(searchBar => {
+            searchBar.addEventListener('focus', () => {
+                searchBar.style.boxShadow = '0 2px 8px rgba(233, 30, 99, 0.2)';
+            });
+
+            searchBar.addEventListener('blur', () => {
+                searchBar.style.boxShadow = 'none';
+            });
+        });
+
+        // Responsive adjustments
+        function handleResize() {
+            const isMobile = window.innerWidth < 992;
+            document.body.style.paddingBottom = isMobile ? '60px' : '0';
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        // Pull to refresh simulation for mobile
+        if (window.innerWidth < 992) {
+            let pullStartY = 0;
+            let isPulling = false;
+
+            document.addEventListener('touchstart', (e) => {
+                if (window.scrollY === 0) {
+                    pullStartY = e.touches[0].clientY;
+                    isPulling = true;
+                }
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!isPulling) return;
+
+                const pullDistance = e.touches[0].clientY - pullStartY;
+                if (pullDistance > 100) {
+                    document.body.style.transform = `translateY(${Math.min(pullDistance * 0.3, 50)}px)`;
+                }
+            });
+
+            document.addEventListener('touchend', () => {
+                if (isPulling) {
+                    document.body.style.transform = '';
+                    isPulling = false;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
