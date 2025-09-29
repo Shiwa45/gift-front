@@ -1,0 +1,96 @@
+{% load static %}
+<!-- Mobile Header (Hidden on Desktop) -->
+<header class="mobile-header mobile-only">
+    <div class="mobile-top-bar">
+        {% if show_back_button %}
+            <button class="back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        {% else %}
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        {% endif %}
+        
+        <div class="mobile-logo">
+            <a href="{% url 'core:home' %}" style="text-decoration: none; color: var(--primary-color);">
+                {{ page_title|default:"GiftTree" }}
+            </a>
+        </div>
+        
+        <div class="header-actions">
+            {% if show_search_button %}
+                <button class="header-btn" onclick="toggleMobileSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            {% endif %}
+            
+            {% if show_share_button %}
+                <button class="header-btn" onclick="shareProduct()">
+                    <i class="fas fa-share"></i>
+                </button>
+            {% endif %}
+            
+            <a href="{% url 'cart:cart' %}" class="header-btn">
+                <i class="fas fa-shopping-cart"></i>
+                {% if cart_count %}
+                    <span class="cart-badge">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+    
+    {% if show_search_bar %}
+        <div class="mobile-search">
+            <form method="GET" action="{% url 'products:search' %}">
+                <div style="position: relative;">
+                    <i class="fas fa-search mobile-search-icon"></i>
+                    <input type="text" name="q" class="mobile-search-bar" 
+                           placeholder="Search flowers, cakes, gifts..." 
+                           value="{{ request.GET.q }}">
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    
+    {% if show_location_bar %}
+        <div class="location-bar">
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Deliver to: {{ user_location|default:"Delhi 110001" }}</span>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    {% endif %}
+</header>
+
+{% if show_category_pills %}
+    <!-- Category Pills Mobile -->
+    <div class="category-pills mobile-only">
+        <div class="pill-container">
+            <button class="category-pill active" data-category="all">All {{ category_type|default:"Products" }}</button>
+            {% for category in categories %}
+                <button class="category-pill" data-category="{{ category.slug }}">{{ category.name }}</button>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<script>
+// Mobile search toggle
+function toggleMobileSearch() {
+    const searchDiv = document.querySelector('.mobile-search');
+    const searchInput = document.querySelector('.mobile-search-bar');
+    
+    if (searchDiv) {
+        if (searchDiv.style.display === 'none' || !searchDiv.style.display) {
+            searchDiv.style.display = 'block';
+            if (searchInput) {
+                searchInput.focus();
+            }
+        } else {
+            searchDiv.style.display = 'none';
+        }
+    }
+}
+</script>

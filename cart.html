@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shopping Cart - Review Your Order | GiftTree</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E91E63;
+            --secondary-color: #4CAF50;
+            --accent-color: #FF9800;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #FFF8F0;
+            --border-light: #E0E0E0;
+            --pink-gradient: linear-gradient(135deg, #E91E63 0%, #FF6090 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: #f5f5f5;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .mobile-header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-top-bar {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-dark);
+            padding: 8px;
+        }
+
+        .mobile-logo {
+            flex: 1;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .cart-count {
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            background: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin: 20px 16px;
+            border-radius: 12px;
+            display: none;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            color: #E0E0E0;
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .empty-subtitle {
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .shop-now-btn {
+            background: var(--pink-gradient);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .shop-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+            color: white;
+        }
+
+        /* Cart Items */
+        .cart-section {
+            margin: 0 16px 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            background: white;
+            padding: 20px 16px 0;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .cart-items {
+            background: white;
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .item-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .item-addons {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .item-price-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .item-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-left: 12px;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .qty-btn:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .qty-display {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            border-left: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff4757;
+            font-size: 16px;
+            padding: 8px;
+            margin-left: 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .remove-item:hover {
+            background: rgba(255, 71, 87, 0.1);
+        }
+
+        /* Delivery Options */
+        .delivery-section {
+            background: white;
+            margin: 0 16px 20px;
+            border-radius: 12px;
+            padding: 20px 16px;
+        }
+
+        .delivery-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .delivery-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .delivery-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(233, 30, 99, 0.05);
+        }
+
+        .delivery-radio {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            margin-right: 12px;
+        }
+
+        .delivery-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--pink-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+            margin-right: 12px;
+        }
+
+        .delivery-details {
+            flex: 1;
+        }
+
+        .delivery-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .delivery-time {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .delivery-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .free-delivery {
+            color: var(--secondary-color);
+        }
+
+        /* Coupon Section */
+        .coupon-section {
+            background: white;
+            margin: 0 16px 20px;
+            border-radius: 12px;
+            padding: 20px 16px;
+        }
+
+        .coupon-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .coupon-input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .coupon-input {
+            flex: 1;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .coupon-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .apply-coupon-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .available-coupons {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .available-coupons::-webkit-scrollbar {
+            display: none;
+        }
+
+        .coupon-chip {
+            background: #f8f9fa;
+            border: 1px dashed var(--primary-color);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--primary-color);
+            white-space: nowrap;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .coupon-chip:hover {
+            background: rgba(233, 30, 99, 0.1);
+        }
+
+        .applied-coupon {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remove-coupon {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: white;
+            margin: 0 16px 20px;
+            border-radius: 12px;
+            padding: 20px 16px;
+        }
+
+        .summary-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .summary-value {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: #f0f0f0;
+            margin: 16px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .savings-highlight {
+            color: var(--secondary-color);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Sticky Bottom */
+        .sticky-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .bottom-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--pink-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Recommendations */
+        .recommendations {
+            background: white;
+            margin: 0 16px 20px;
+            border-radius: 12px;
+            padding: 20px 16px;
+        }
+
+        .rec-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .rec-scroll {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .rec-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .rec-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .rec-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            width: 120px;
+            transition: all 0.3s;
+        }
+
+        .rec-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .rec-info {
+            padding: 8px;
+        }
+
+        .rec-name {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .rec-price {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .add-rec-btn {
+            width: 100%;
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .add-rec-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 992px) {
+            body {
+                padding-bottom: 0;
+            }
+
+            .cart-section,
+            .delivery-section,
+            .coupon-section,
+            .order-summary,
+            .recommendations {
+                margin: 0 40px 30px;
+                padding: 30px;
+            }
+
+            .sticky-bottom {
+                display: none;
+            }
+
+            .cart-item {
+                padding: 20px;
+            }
+
+            .item-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar Start -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="home.html">GiftTree</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="flower_catergoy.html">Flower Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prodcust_detail.html">Product Detail</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navigation Bar End -->
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="mobile-top-bar">
+            <button class="back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="mobile-logo">Shopping Cart</div>
+            <div class="cart-count" id="cartCount">3</div>
+        </div>
+    </header>
+
+    <!-- Empty Cart State -->
+    <div class="empty-cart" id="emptyCart">
+        <div class="empty-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+        <h2 class="empty-title">Your cart is empty</h2>
+        <p class="empty-subtitle">Add some beautiful flowers and gifts to brighten someone's day!</p>
+        <a href="index.html" class="shop-now-btn">Start Shopping</a>
+    </div>
+
+    <!-- Cart Content -->
+    <div id="cartContent">
+        <!-- Cart Items Section -->
+        <div class="cart-section">
+            <h2 class="section-title">Your Items</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Delivery Options -->
+        <div class="delivery-section">
+            <h3 class="delivery-title">Delivery Options</h3>
+            <div class="delivery-options">
+                <div class="delivery-option selected" onclick="selectDelivery(this, 0)">
+                    <input type="radio" name="delivery" class="delivery-radio" checked>
+                    <div class="delivery-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="delivery-details">
+                        <div class="delivery-name">Same Day Delivery</div>
+                        <div class="delivery-time">Within 3-6 hours</div>
+                    </div>
+                    <div class="delivery-price free-delivery">FREE</div>
+                </div>
+                <div class="delivery-option" onclick="selectDelivery(this, 99)">
+                    <input type="radio" name="delivery" class="delivery-radio">
+                    <div class="delivery-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="delivery-details">
+                        <div class="delivery-name">Midnight Delivery</div>
+                        <div class="delivery-time">12:00 AM - 12:30 AM</div>
+                    </div>
+                    <div class="delivery-price">₹99</div>
+                </div>
+                <div class="delivery-option" onclick="selectDelivery(this, 49)">
+                    <input type="radio" name="delivery" class="delivery-radio">
+                    <div class="delivery-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="delivery-details">
+                        <div class="delivery-name">Fixed Time Delivery</div>
+                        <div class="delivery-time">Choose your preferred slot</div>
+                    </div>
+                    <div class="delivery-price">₹49</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coupon Section -->
+        <div class="coupon-section">
+            <h3 class="coupon-title">Apply Coupon</h3>
+            <div class="coupon-input-group">
+                <input type="text" class="coupon-input" placeholder="Enter coupon code" id="couponInput">
+                <button class="apply-coupon-btn" onclick="applyCoupon()">APPLY</button>
+            </div>
+            <div class="available-coupons">
+                <div class="coupon-chip" onclick="applyCouponCode('SAVE10')">SAVE10</div>
+                <div class="coupon-chip" onclick="applyCouponCode('FLOWER20')">FLOWER20</div>
+                <div class="coupon-chip" onclick="applyCouponCode('FIRST15')">FIRST15</div>
+            </div>
+            <div id="appliedCoupon" style="display: none; margin-top: 12px;">
+                <!-- Applied coupon will appear here -->
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="summary-row">
+                <span class="summary-label">Subtotal (<span id="itemCount">3</span> items)</span>
+                <span class="summary-value">₹<span id="subtotal">2797</span></span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Delivery Charges</span>
+                <span class="summary-value" id="deliveryCharges">FREE</span>
+            </div>
+            <div class="summary-row" id="couponDiscountRow" style="display: none;">
+                <span class="summary-label">Coupon Discount</span>
+                <span class="summary-value" style="color: var(--secondary-color);">-₹<span id="couponDiscount">0</span></span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-total">
+                <span>Total Amount</span>
+                <span>₹<span id="totalAmount">2797</span></span>
+            </div>
+            <div class="savings-highlight" id="savingsText" style="display: none;">
+                You saved ₹<span id="totalSavings">0</span> on this order!
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recommendations">
+            <h3 class="rec-title">Frequently Bought Together</h3>
+            <div class="rec-scroll">
+                <div class="rec-row">
+                    <div class="rec-card">
+                        <img src="chocko cake.jpg" alt="Chocolate Cake" class="rec-image">
+                        <div class="rec-info">
+                            <div class="rec-name">Chocolate Cake</div>
+                            <div class="rec-price">₹299</div>
+                            <button class="add-rec-btn" onclick="addRecommendation('Chocolate Cake', 299)">ADD</button>
+                        </div>
+                    </div>
+                    <div class="rec-card">
+                        <img src="teddy.webp" alt="Teddy Bear" class="rec-image">
+                        <div class="rec-info">
+                            <div class="rec-name">Teddy Bear</div>
+                            <div class="rec-price">₹199</div>
+                            <button class="add-rec-btn" onclick="addRecommendation('Teddy Bear', 199)">ADD</button>
+                        </div>
+                    </div>
+                    <div class="rec-card">
+                        <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=300&h=300&fit=crop" alt="Greeting Card" class="rec-image">
+                        <div class="rec-info">
+                            <div class="rec-name">Greeting Card</div>
+                            <div class="rec-price">₹149</div>
+                            <button class="add-rec-btn" onclick="addRecommendation('Greeting Card', 149)">ADD</button>
+                        </div>
+                    </div>
+                    <div class="rec-card">
+                        <img src="https://images.unsplash.com/photo-1594735797083-3d5c4a5ca5e0?w=300&h=300&fit=crop" alt="Chocolates" class="rec-image">
+                        <div class="rec-info">
+                            <div class="rec-name">Premium Chocolates</div>
+                            <div class="rec-price">₹399</div>
+                            <button class="add-rec-btn" onclick="addRecommendation('Premium Chocolates', 399)">ADD</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Bottom -->
+    <div class="sticky-bottom">
+        <div class="bottom-summary">
+            <span>Total: ₹<span id="bottomTotal">2797</span></span>
+            <span><span id="bottomItemCount">3</span> items</span>
+        </div>
+        <button class="checkout-btn" onclick="proceedToCheckout()" id="checkoutButton">
+            PROCEED TO CHECKOUT
+        </button>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Sample cart data
+        let cartItems = [
+            {
+                id: 'red-rose-bouquet',
+                name: 'Beautiful Red Rose Bouquet',
+                price: 899,
+                quantity: 1,
+                addons: ['Chocolate Cake'],
+                image: 'rose.webp',
+                total: 1198
+            },
+            {
+                id: 'pink-lily-bouquet',
+                name: 'Elegant Pink Lily Arrangement',
+                price: 1299,
+                quantity: 1,
+                addons: [],
+                image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=300&fit=crop',
+                total: 1299
+            },
+            {
+                id: 'yellow-sunflowers',
+                name: 'Bright Yellow Sunflower Bunch',
+                price: 699,
+                quantity: 1,
+                addons: [],
+                image: 'https://images.unsplash.com/photo-1582794543465-0c4bb9a9ce5b?w=300&h=300&fit=crop',
+                total: 699
+            }
+        ];
+
+        let deliveryCharge = 0;
+        let appliedCouponDiscount = 0;
+        let appliedCouponCode = '';
+
+        // Initialize cart
+        function initializeCart() {
+            if (cartItems.length === 0) {
+                document.getElementById('emptyCart').style.display = 'block';
+                document.getElementById('cartContent').style.display = 'none';
+                return;
+            }
+
+            renderCartItems();
+            updateSummary();
+        }
+
+        // Render cart items
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            cartItemsContainer.innerHTML = '';
+
+            cartItems.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="item-image">
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        ${item.addons.length > 0 ? `<div class="item-addons">+ ${item.addons.join(', ')}</div>` : ''}
+                        <div class="item-price-section">
+                            <div class="item-price">₹${item.total}</div>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)" ${item.quantity <= 1 ? 'disabled' : ''}>
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <div class="qty-display">${item.quantity}</div>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)" ${item.quantity >= 10 ? 'disabled' : ''}>
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="remove-item" onclick="removeItem(${index})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+        }
+
+        // Update quantity
+        function updateQuantity(index, change) {
+            const newQuantity = cartItems[index].quantity + change;
+            if (newQuantity >= 1 && newQuantity <= 10) {
+                cartItems[index].quantity = newQuantity;
+                cartItems[index].total = cartItems[index].price * newQuantity;
+                
+                renderCartItems();
+                updateSummary();
+                showToast('Quantity updated');
+            }
+        }
+
+        // Remove item
+        function removeItem(index) {
+            const itemName = cartItems[index].name;
+            cartItems.splice(index, 1);
+            
+            if (cartItems.length === 0) {
+                document.getElementById('emptyCart').style.display = 'block';
+                document.getElementById('cartContent').style.display = 'none';
+            } else {
+                renderCartItems();
+                updateSummary();
+            }
+            
+            showToast(`${itemName} removed from cart`);
+        }
+
+        // Select delivery option
+        function selectDelivery(element, charge) {
+            document.querySelectorAll('.delivery-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            const radio = element.querySelector('.delivery-radio');
+            radio.checked = true;
+            
+            deliveryCharge = charge;
+            updateSummary();
+        }
+
+        // Apply coupon
+        function applyCoupon() {
+            const couponCode = document.getElementById('couponInput').value.trim().toUpperCase();
+            applyCouponCode(couponCode);
+        }
+
+        function applyCouponCode(code) {
+            const coupons = {
+                'SAVE10': { discount: 10, type: 'percentage', minOrder: 500 },
+                'FLOWER20': { discount: 20, type: 'percentage', minOrder: 1000 },
+                'FIRST15': { discount: 15, type: 'percentage', minOrder: 800 },
+                'FLAT100': { discount: 100, type: 'fixed', minOrder: 1500 }
+            };
+
+            const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+            
+            if (coupons[code]) {
+                const coupon = coupons[code];
+                if (subtotal >= coupon.minOrder) {
+                    if (coupon.type === 'percentage') {
+                        appliedCouponDiscount = Math.round((subtotal * coupon.discount) / 100);
+                    } else {
+                        appliedCouponDiscount = coupon.discount;
+                    }
+                    appliedCouponCode = code;
+                    
+                    document.getElementById('appliedCoupon').style.display = 'block';
+                    document.getElementById('appliedCoupon').innerHTML = `
+                        <div class="applied-coupon">
+                            <i class="fas fa-check-circle"></i>
+                            <span>${code} applied</span>
+                            <button class="remove-coupon" onclick="removeCoupon()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    document.getElementById('couponInput').value = '';
+                    updateSummary();
+                    showToast(`Coupon ${code} applied! You saved ₹${appliedCouponDiscount}`);
+                } else {
+                    showToast(`Minimum order of ₹${coupon.minOrder} required for this coupon`);
+                }
+            } else {
+                showToast('Invalid coupon code');
+            }
+        }
+
+        // Remove coupon
+        function removeCoupon() {
+            appliedCouponDiscount = 0;
+            appliedCouponCode = '';
+            document.getElementById('appliedCoupon').style.display = 'none';
+            updateSummary();
+            showToast('Coupon removed');
+        }
+
+        // Update summary
+        function updateSummary() {
+            const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+            const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            const total = subtotal + deliveryCharge - appliedCouponDiscount;
+
+            document.getElementById('subtotal').textContent = subtotal;
+            document.getElementById('itemCount').textContent = itemCount;
+            document.getElementById('bottomItemCount').textContent = itemCount;
+            document.getElementById('cartCount').textContent = itemCount;
+            
+            document.getElementById('deliveryCharges').textContent = deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`;
+            
+            if (appliedCouponDiscount > 0) {
+                document.getElementById('couponDiscountRow').style.display = 'flex';
+                document.getElementById('couponDiscount').textContent = appliedCouponDiscount;
+            } else {
+                document.getElementById('couponDiscountRow').style.display = 'none';
+            }
+
+            document.getElementById('totalAmount').textContent = total;
+            document.getElementById('bottomTotal').textContent = total;
+
+            // Show savings
+            const totalSavings = appliedCouponDiscount;
+            if (totalSavings > 0) {
+                document.getElementById('savingsText').style.display = 'block';
+                document.getElementById('totalSavings').textContent = totalSavings;
+            } else {
+                document.getElementById('savingsText').style.display = 'none';
+            }
+        }
+
+        // Add recommendation
+        function addRecommendation(name, price) {
+            const newItem = {
+                id: name.toLowerCase().replace(/\s+/g, '-'),
+                name: name,
+                price: price,
+                quantity: 1,
+                addons: [],
+                image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop',
+                total: price
+            };
+
+            cartItems.push(newItem);
+            renderCartItems();
+            updateSummary();
+            showToast(`${name} added to cart!`);
+        }
+
+        // Proceed to checkout
+        function proceedToCheckout() {
+            if (cartItems.length === 0) {
+                showToast('Your cart is empty');
+                return;
+            }
+
+            showToast('Proceeding to checkout...');
+            setTimeout(() => {
+                window.location.href = 'checkout.html';
+            }, 1000);
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCart();
+            
+            // Auto-scroll recommendations
+            const recScroll = document.querySelector('.rec-scroll');
+            if (recScroll) {
+                let scrollAmount = 0;
+                const scrollStep = 132;
+                let isScrolling = false;
+                
+                setInterval(() => {
+                    if (!isScrolling && recScroll.scrollWidth > recScroll.clientWidth) {
+                        scrollAmount += scrollStep;
+                        if (scrollAmount >= recScroll.scrollWidth - recScroll.clientWidth) {
+                            scrollAmount = 0;
+                        }
+                        recScroll.scrollTo({
+                            left: scrollAmount,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 3000);
+                
+                recScroll.addEventListener('touchstart', () => isScrolling = true);
+                recScroll.addEventListener('touchend', () => {
+                    setTimeout(() => isScrolling = false, 2000);
+                });
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('couponInput') === document.activeElement) {
+                applyCoupon();
+            }
+        });
+
+        // Save cart to localStorage (for persistence)
+        function saveCart() {
+            localStorage.setItem('giftTreeCart', JSON.stringify({
+                items: cartItems,
+                deliveryCharge: deliveryCharge,
+                couponDiscount: appliedCouponDiscount,
+                couponCode: appliedCouponCode
+            }));
+        }
+
+        // Load cart from localStorage
+        function loadCart() {
+            const savedCart = localStorage.getItem('giftTreeCart');
+            if (savedCart) {
+                const cartData = JSON.parse(savedCart);
+                cartItems = cartData.items || [];
+                deliveryCharge = cartData.deliveryCharge || 0;
+                appliedCouponDiscount = cartData.couponDiscount || 0;
+                appliedCouponCode = cartData.couponCode || '';
+                
+                if (appliedCouponCode) {
+                    document.getElementById('appliedCoupon').style.display = 'block';
+                    document.getElementById('appliedCoupon').innerHTML = `
+                        <div class="applied-coupon">
+                            <i class="fas fa-check-circle"></i>
+                            <span>${appliedCouponCode} applied</span>
+                            <button class="remove-coupon" onclick="removeCoupon()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Save cart whenever it changes
+        const originalUpdateSummary = updateSummary;
+        updateSummary = function() {
+            originalUpdateSummary();
+            saveCart();
+        };
+
+        // Load cart on page load
+        // loadCart(); // Uncomment to enable cart persistence
+    </script>
+</body>
+
+</html>

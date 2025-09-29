@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Beautiful Red Rose Bouquet - Same Day Delivery | GiftTree</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E91E63;
+            --secondary-color: #4CAF50;
+            --accent-color: #FF9800;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #FFF8F0;
+            --border-light: #E0E0E0;
+            --pink-gradient: linear-gradient(135deg, #E91E63 0%, #FF6090 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: #f5f5f5;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .mobile-header {
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-top-bar {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-dark);
+            padding: 8px;
+        }
+
+        .mobile-logo {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--text-dark);
+            padding: 8px;
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Product Image Gallery */
+        .product-gallery {
+            background: white;
+            position: relative;
+        }
+
+        .main-image-container {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-badges {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .badge {
+            background: var(--primary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge.new {
+            background: var(--secondary-color);
+        }
+
+        .gallery-actions {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-size: 16px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .image-indicators {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .thumbnail-gallery::-webkit-scrollbar {
+            display: none;
+        }
+
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary-color);
+        }
+
+        /* Product Info */
+        .product-info {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 8px;
+        }
+
+        .product-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .product-subtitle {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: #FFA500;
+            font-size: 16px;
+        }
+
+        .star.empty {
+            color: #E0E0E0;
+        }
+
+        .rating-text {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .reviews-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .price-section {
+            margin-bottom: 20px;
+        }
+
+        .current-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-right: 12px;
+        }
+
+        .original-price {
+            font-size: 18px;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-right: 8px;
+        }
+
+        .discount-badge {
+            background: #E8F5E8;
+            color: var(--secondary-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .savings-text {
+            color: var(--secondary-color);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* Product Options */
+        .product-options {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 8px;
+        }
+
+        .option-group {
+            margin-bottom: 20px;
+        }
+
+        .option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .size-option {
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .size-option.active {
+            border-color: var(--primary-color);
+            background: rgba(233, 30, 99, 0.1);
+        }
+
+        .size-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .size-price {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .addon-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .addon-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .addon-item.selected {
+            border-color: var(--primary-color);
+            background: rgba(233, 30, 99, 0.05);
+        }
+
+        .addon-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+            margin-right: 12px;
+        }
+
+        .addon-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .addon-details {
+            flex: 1;
+        }
+
+        .addon-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .addon-price {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* Delivery Info */
+        .delivery-info {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 8px;
+        }
+
+        .delivery-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .delivery-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .delivery-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(233, 30, 99, 0.05);
+        }
+
+        .delivery-radio {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        .delivery-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--pink-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .delivery-details {
+            flex: 1;
+        }
+
+        .delivery-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .delivery-time {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .delivery-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .free-delivery {
+            color: var(--secondary-color);
+        }
+
+        /* Product Description */
+        .product-description {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 8px;
+        }
+
+        .description-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        .description-text {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .features-list li i {
+            color: var(--secondary-color);
+            font-size: 12px;
+        }
+
+        /* Similar Products */
+        .similar-products {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 8px;
+        }
+
+        .similar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .similar-scroll {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .similar-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .similar-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .similar-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            width: 120px;
+            transition: all 0.3s;
+        }
+
+        .similar-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .similar-info {
+            padding: 8px;
+        }
+
+        .similar-name {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .similar-price {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Sticky Bottom Bar */
+        .sticky-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .bottom-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+
+        .qty-input {
+            border: none;
+            text-align: center;
+            width: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .add-to-cart-btn {
+            flex: 1;
+            background: var(--pink-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+        }
+
+        .wishlist-toggle {
+            background: none;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 18px;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+
+        .wishlist-toggle.active {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: white;
+            padding: 20px 16px;
+            margin-top: 8px;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .reviews-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .view-all-reviews {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .review-summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .review-score {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .score-stars {
+            color: #FFA500;
+            margin: 4px 0;
+        }
+
+        .score-text {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .review-bars {
+            flex: 1;
+        }
+
+        .review-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .bar-label {
+            font-size: 12px;
+            color: var(--text-light);
+            width: 20px;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 4px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #FFA500;
+            transition: width 0.3s;
+        }
+
+        .bar-count {
+            font-size: 12px;
+            color: var(--text-light);
+            width: 30px;
+            text-align: right;
+        }
+
+        .review-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .reviewer-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--pink-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .reviewer-info {
+            flex: 1;
+        }
+
+        .reviewer-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .review-date {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .review-rating {
+            color: #FFA500;
+            font-size: 12px;
+        }
+
+        .review-text {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 992px) {
+            body {
+                padding-bottom: 0;
+            }
+
+            .main-image-container {
+                height: 500px;
+            }
+
+            .product-info,
+            .product-options,
+            .delivery-info,
+            .product-description,
+            .similar-products,
+            .reviews-section {
+                padding: 30px 40px;
+            }
+
+            .sticky-bottom {
+                display: none;
+            }
+
+            .similar-card {
+                width: 180px;
+            }
+
+            .similar-image {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar Start -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="home.html">GiftTree</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html">Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="flower_catergoy.html">Flower Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prodcust_detail.html">Product Detail</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navigation Bar End -->
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <div class="mobile-top-bar">
+            <button class="back-btn" onclick="history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="mobile-logo">Product Details</div>
+            <div class="header-actions">
+                <button class="header-btn">
+                    <i class="fas fa-share"></i>
+                </button>
+                <button class="header-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge">3</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Gallery -->
+    <div class="product-gallery">
+        <div class="main-image-container" id="mainImageContainer">
+            <img src="rose.webp" alt="Red Rose Bouquet" class="main-image" id="mainImage">
+            
+            <div class="gallery-badges">
+                <span class="badge">Bestseller</span>
+                <span class="badge new">Fresh</span>
+            </div>
+            
+            <div class="gallery-actions">
+                <button class="action-btn wishlist-btn" onclick="toggleWishlist()">
+                    <i class="far fa-heart" id="wishlistIcon"></i>
+                </button>
+                <button class="action-btn" onclick="shareProduct()">
+                    <i class="fas fa-share"></i>
+                </button>
+                <button class="action-btn" onclick="zoomImage()">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+            </div>
+            
+            <div class="image-indicators">
+                <span class="indicator active"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+            </div>
+        </div>
+        
+        <div class="thumbnail-gallery">
+            <img src="rose.webp" alt="Rose 1" class="thumbnail active" onclick="changeMainImage(this, 0)">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=300&fit=crop" alt="Rose 2" class="thumbnail" onclick="changeMainImage(this, 1)">
+            <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=300&h=300&fit=crop" alt="Rose 3" class="thumbnail" onclick="changeMainImage(this, 2)">
+            <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=300&h=300&fit=crop" alt="Rose 4" class="thumbnail" onclick="changeMainImage(this, 3)">
+        </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+        <h1 class="product-title">Beautiful Red Rose Bouquet</h1>
+        <p class="product-subtitle">Fresh premium roses arranged by expert florists</p>
+        
+        <div class="rating-section">
+            <div class="rating-stars">
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+                <i class="fas fa-star star"></i>
+            </div>
+            <span class="rating-text">4.8 (124 reviews)</span>
+            <a href="#reviews" class="reviews-link">See all reviews</a>
+        </div>
+        
+        <div class="price-section">
+            <span class="current-price">₹899</span>
+            <span class="original-price">₹1,199</span>
+            <span class="discount-badge">25% OFF</span>
+            <div class="savings-text">You save ₹300</div>
+        </div>
+    </div>
+
+    <!-- Product Options -->
+    <div class="product-options">
+        <div class="option-group">
+            <h3 class="option-title">Choose Size</h3>
+            <div class="size-options">
+                <div class="size-option active" onclick="selectSize(this, 899)">
+                    <div class="size-name">Standard</div>
+                    <div class="size-price">₹899</div>
+                </div>
+                <div class="size-option" onclick="selectSize(this, 1299)">
+                    <div class="size-name">Premium</div>
+                    <div class="size-price">₹1,299</div>
+                </div>
+                <div class="size-option" onclick="selectSize(this, 1799)">
+                    <div class="size-name">Deluxe</div>
+                    <div class="size-price">₹1,799</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="option-group">
+            <h3 class="option-title">Add-ons (Optional)</h3>
+            <div class="addon-options">
+                <div class="addon-item" onclick="toggleAddon(this, 299)">
+                    <input type="checkbox" class="addon-checkbox">
+                    <img src="chocko cake.jpg" alt="Chocolate Cake" class="addon-image">
+                    <div class="addon-details">
+                        <div class="addon-name">Chocolate Cake (500g)</div>
+                        <div class="addon-price">+ ₹299</div>
+                    </div>
+                </div>
+                <div class="addon-item" onclick="toggleAddon(this, 199)">
+                    <input type="checkbox" class="addon-checkbox">
+                    <img src="teddy.webp" alt="Teddy Bear" class="addon-image">
+                    <div class="addon-details">
+                        <div class="addon-name">Cute Teddy Bear</div>
+                        <div class="addon-price">+ ₹199</div>
+                    </div>
+                </div>
+                <div class="addon-item" onclick="toggleAddon(this, 149)">
+                    <input type="checkbox" class="addon-checkbox">
+                    <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=300&h=300&fit=crop" alt="Greeting Card" class="addon-image">
+                    <div class="addon-details">
+                        <div class="addon-name">Personalized Card</div>
+                        <div class="addon-price">+ ₹149</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delivery Info -->
+    <div class="delivery-info">
+        <h3 class="delivery-title">Delivery Options</h3>
+        <div class="delivery-options">
+            <div class="delivery-option selected" onclick="selectDelivery(this)">
+                <input type="radio" name="delivery" class="delivery-radio" checked>
+                <div class="delivery-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <div class="delivery-details">
+                    <div class="delivery-name">Same Day Delivery</div>
+                    <div class="delivery-time">Within 3-6 hours</div>
+                </div>
+                <div class="delivery-price free-delivery">FREE</div>
+            </div>
+            <div class="delivery-option" onclick="selectDelivery(this)">
+                <input type="radio" name="delivery" class="delivery-radio">
+                <div class="delivery-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <div class="delivery-details">
+                    <div class="delivery-name">Midnight Delivery</div>
+                    <div class="delivery-time">12:00 AM - 12:30 AM</div>
+                </div>
+                <div class="delivery-price">₹99</div>
+            </div>
+            <div class="delivery-option" onclick="selectDelivery(this)">
+                <input type="radio" name="delivery" class="delivery-radio">
+                <div class="delivery-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="delivery-details">
+                    <div class="delivery-name">Fixed Time Delivery</div>
+                    <div class="delivery-time">Choose your preferred slot</div>
+                </div>
+                <div class="delivery-price">₹49</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Description -->
+    <div class="product-description">
+        <h3 class="description-title">Product Description</h3>
+        <p class="description-text">
+            Express your heartfelt emotions with this stunning bouquet of fresh red roses. Each rose is carefully selected 
+            by our expert florists and arranged to perfection. This beautiful arrangement is perfect for anniversaries, 
+            birthdays, Valentine's Day, or any special occasion.
+        </p>
+        <ul class="features-list">
+            <li><i class="fas fa-check-circle"></i> 12 fresh premium red roses</li>
+            <li><i class="fas fa-check-circle"></i> Beautifully wrapped with ribbon</li>
+            <li><i class="fas fa-check-circle"></i> Includes care instructions</li>
+            <li><i class="fas fa-check-circle"></i> Fresh for 5-7 days</li>
+            <li><i class="fas fa-check-circle"></i> Same day delivery available</li>
+        </ul>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section" id="reviews">
+        <div class="reviews-header">
+            <h3 class="reviews-title">Customer Reviews</h3>
+            <a href="#" class="view-all-reviews">View All</a>
+        </div>
+        
+        <div class="review-summary">
+            <div class="review-score">
+                <div class="score-number">4.8</div>
+                <div class="score-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="score-text">124 reviews</div>
+            </div>
+            <div class="review-bars">
+                <div class="review-bar">
+                    <span class="bar-label">5</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 80%;"></div>
+                    </div>
+                    <span class="bar-count">99</span>
+                </div>
+                <div class="review-bar">
+                    <span class="bar-label">4</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 15%;"></div>
+                    </div>
+                    <span class="bar-count">19</span>
+                </div>
+                <div class="review-bar">
+                    <span class="bar-label">3</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 3%;"></div>
+                    </div>
+                    <span class="bar-count">4</span>
+                </div>
+                <div class="review-bar">
+                    <span class="bar-label">2</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 1%;"></div>
+                    </div>
+                    <span class="bar-count">1</span>
+                </div>
+                <div class="review-bar">
+                    <span class="bar-label">1</span>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 1%;"></div>
+                    </div>
+                    <span class="bar-count">1</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="review-item">
+            <div class="review-header">
+                <div class="reviewer-avatar">S</div>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">Sneha Sharma</div>
+                    <div class="review-date">2 days ago</div>
+                </div>
+                <div class="review-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            <p class="review-text">
+                Absolutely beautiful roses! They arrived fresh and perfectly arranged. 
+                My wife loved the surprise. Highly recommend for special occasions.
+            </p>
+        </div>
+        
+        <div class="review-item">
+            <div class="review-header">
+                <div class="reviewer-avatar">R</div>
+                <div class="reviewer-info">
+                    <div class="reviewer-name">Rahul Kumar</div>
+                    <div class="review-date">1 week ago</div>
+                </div>
+                <div class="review-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                </div>
+            </div>
+            <p class="review-text">
+                Good quality roses and timely delivery. The packaging was excellent. 
+                Only issue was one rose had a small blemish, but overall satisfied.
+            </p>
+        </div>
+    </div>
+
+    <!-- Similar Products -->
+    <div class="similar-products">
+        <h3 class="similar-title">You May Also Like</h3>
+        <div class="similar-scroll">
+            <div class="similar-row">
+                <div class="similar-card">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=300&fit=crop" alt="Pink Roses" class="similar-image">
+                    <div class="similar-info">
+                        <div class="similar-name">Pink Rose Bouquet</div>
+                        <div class="similar-price">₹799</div>
+                    </div>
+                </div>
+                <div class="similar-card">
+                    <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=300&h=300&fit=crop" alt="Mixed Flowers" class="similar-image">
+                    <div class="similar-info">
+                        <div class="similar-name">Mixed Bouquet</div>
+                        <div class="similar-price">₹1,099</div>
+                    </div>
+                </div>
+                <div class="similar-card">
+                    <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=300&h=300&fit=crop" alt="White Orchids" class="similar-image">
+                    <div class="similar-info">
+                        <div class="similar-name">White Orchids</div>
+                        <div class="similar-price">₹1,899</div>
+                    </div>
+                </div>
+                <div class="similar-card">
+                    <img src="https://images.unsplash.com/photo-1582794543465-0c4bb9a9ce5b?w=300&h=300&fit=crop" alt="Sunflowers" class="similar-image">
+                    <div class="similar-info">
+                        <div class="similar-name">Sunflower Bunch</div>
+                        <div class="similar-price">₹699</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Bottom Bar -->
+    <div class="sticky-bottom">
+        <div class="bottom-actions">
+            <div class="quantity-selector">
+                <button class="qty-btn" onclick="changeQuantity(-1)">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" class="qty-input" value="1" min="1" max="10" id="quantity">
+                <button class="qty-btn" onclick="changeQuantity(1)">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+            <button class="add-to-cart-btn" onclick="addToCart()">
+                ADD TO CART - ₹<span id="totalPrice">899</span>
+            </button>
+            <button class="wishlist-toggle" onclick="toggleWishlist()">
+                <i class="far fa-heart" id="wishlistIconBottom"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        let currentPrice = 899;
+        let selectedAddons = [];
+        let quantity = 1;
+        let isWishlisted = false;
+
+        // Image Gallery Functions
+        function changeMainImage(thumbnail, index) {
+            const mainImage = document.getElementById('mainImage');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const indicators = document.querySelectorAll('.indicator');
+
+            mainImage.src = thumbnail.src;
+            
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            thumbnail.classList.add('active');
+            
+            indicators.forEach(ind => ind.classList.remove('active'));
+            indicators[index].classList.add('active');
+        }
+
+        // Size Selection
+        function selectSize(element, price) {
+            document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+            element.classList.add('active');
+            currentPrice = price;
+            updateTotalPrice();
+        }
+
+        // Addon Toggle
+        function toggleAddon(element, price) {
+            const checkbox = element.querySelector('.addon-checkbox');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('selected');
+            
+            if (checkbox.checked) {
+                selectedAddons.push(price);
+                showToast('Add-on added!');
+            } else {
+                selectedAddons = selectedAddons.filter(addon => addon !== price);
+                showToast('Add-on removed!');
+            }
+            updateTotalPrice();
+        }
+
+        // Delivery Selection
+        function selectDelivery(element) {
+            document.querySelectorAll('.delivery-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            const radio = element.querySelector('.delivery-radio');
+            radio.checked = true;
+        }
+
+        // Quantity Functions
+        function changeQuantity(change) {
+            const qtyInput = document.getElementById('quantity');
+            const newQty = parseInt(qtyInput.value) + change;
+            if (newQty >= 1 && newQty <= 10) {
+                qtyInput.value = newQty;
+                quantity = newQty;
+                updateTotalPrice();
+            }
+        }
+
+        // Update Total Price
+        function updateTotalPrice() {
+            const addonTotal = selectedAddons.reduce((sum, addon) => sum + addon, 0);
+            const total = (currentPrice + addonTotal) * quantity;
+            document.getElementById('totalPrice').textContent = total;
+        }
+
+        // Wishlist Functions
+        function toggleWishlist() {
+            isWishlisted = !isWishlisted;
+            const icons = [document.getElementById('wishlistIcon'), document.getElementById('wishlistIconBottom')];
+            
+            icons.forEach(icon => {
+                if (isWishlisted) {
+                    icon.className = 'fas fa-heart';
+                    icon.parentElement.classList.add('active');
+                } else {
+                    icon.className = 'far fa-heart';
+                    icon.parentElement.classList.remove('active');
+                }
+            });
+            
+            showToast(isWishlisted ? 'Added to wishlist!' : 'Removed from wishlist!');
+        }
+
+        // Add to Cart
+        function addToCart() {
+            const addonTotal = selectedAddons.reduce((sum, addon) => sum + addon, 0);
+            const total = (currentPrice + addonTotal) * quantity;
+            
+            showToast(`Added to cart! Total: ₹${total}`);
+            
+            // Update cart badge
+            const cartBadge = document.querySelector('.cart-badge');
+            let currentCount = parseInt(cartBadge.textContent);
+            cartBadge.textContent = currentCount + quantity;
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 50, 50]);
+            }
+        }
+
+        // Share Product
+        function shareProduct() {

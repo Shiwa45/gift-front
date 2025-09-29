@@ -1,0 +1,208 @@
+{% load static %}
+<!-- Desktop Header (Hidden on Mobile) -->
+<div class="desktop-only">
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="left-info">
+                <span><i class="fas fa-truck"></i> Free Delivery Available</span>
+                <span><i class="fas fa-clock"></i> Same Day Delivery</span>
+            </div>
+            <div class="right-info">
+                <span><i class="fas fa-phone"></i> Call: +91-9876543210</span>
+                <span><i class="fas fa-envelope"></i> support@gifttree.com</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header desktop-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h2>
+                        <a href="{% url 'core:home' %}" style="text-decoration: none; color: var(--primary-color);">
+                            GiftTree
+                        </a>
+                    </h2>
+                </div>
+                
+                <div class="search-container">
+                    <form method="GET" action="{% url 'products:search' %}">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" name="q" class="search-bar" 
+                               placeholder="Search for flowers, cakes, gifts..." 
+                               value="{{ request.GET.q }}">
+                    </form>
+                </div>
+                
+                <div class="header-actions">
+                    <a href="#" class="header-btn" onclick="showLocationModal()">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Select City
+                    </a>
+                    
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <a href="#" class="header-btn dropdown-toggle">
+                                <i class="fas fa-user"></i>
+                                {{ user.first_name|default:user.username }}
+                                <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-content">
+                                    <div class="dropdown-column">
+                                        <a href="{% url 'users:profile' %}">
+                                            <i class="fas fa-user"></i> My Profile
+                                        </a>
+                                        <a href="{% url 'orders:order_list' %}">
+                                            <i class="fas fa-shopping-bag"></i> My Orders
+                                        </a>
+                                        <a href="#">
+                                            <i class="fas fa-heart"></i> Wishlist
+                                        </a>
+                                        <a href="#">
+                                            <i class="fas fa-map-marker-alt"></i> Addresses
+                                        </a>
+                                        <hr>
+                                        <a href="{% url 'users:logout' %}">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'users:login' %}" class="header-btn">
+                            <i class="fas fa-user"></i>
+                            Account
+                        </a>
+                    {% endif %}
+                    
+                    <a href="{% url 'cart:cart' %}" class="header-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart
+                        {% if cart_count %}
+                            <span class="cart-badge">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Desktop Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                {% for category in main_categories %}
+                    <li class="dropdown">
+                        <a href="{% url 'products:category_detail' category.slug %}" class="dropdown-toggle">
+                            {{ category.name }} 
+                            {% if category.children.all %}
+                                <i class="fas fa-chevron-down"></i>
+                            {% endif %}
+                        </a>
+                        
+                        {% if category.children.all %}
+                            <div class="dropdown-menu">
+                                <div class="dropdown-content">
+                                    <div class="dropdown-column">
+                                        <h4>{{ category.name }}</h4>
+                                        {% for subcategory in category.children.all %}
+                                            <a href="{% url 'products:category_detail' subcategory.slug %}">
+                                                {{ subcategory.name }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    {% if category.featured_products.all %}
+                                        <div class="dropdown-column">
+                                            <h4>Featured {{ category.name }}</h4>
+                                            {% for product in category.featured_products.all|slice:":5" %}
+                                                <a href="{% url 'products:product_detail' product.slug %}">
+                                                    {{ product.name }}
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    {% if category.occasions.all %}
+                                        <div class="dropdown-column">
+                                            <h4>By Occasion</h4>
+                                            {% for occasion in category.occasions.all %}
+                                                <a href="#">
+                                                    {{ occasion.name }}
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                
+                <li><a href="{% url 'products:product_list' %}">All Products</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<script>
+// Location modal function
+function showLocationModal() {
+    // This would typically open a location selection modal
+    showToast('Location selection feature coming soon!');
+}
+
+// Enhanced dropdown functionality for desktop
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.header-actions .dropdown');
+    
+    dropdowns.forEach(dropdown => {
+        const menu = dropdown.querySelector('.dropdown-menu');
+        
+        if (menu) {
+            dropdown.addEventListener('mouseenter', () => {
+                menu.style.display = 'block';
+            });
+
+            dropdown.addEventListener('mouseleave', () => {
+                menu.style.display = 'none';
+            });
+
+            // Click functionality for touch devices
+            dropdown.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (menu.style.display === 'block') {
+                    menu.style.display = 'none';
+                } else {
+                    // Hide all other dropdowns first
+                    dropdowns.forEach(otherDropdown => {
+                        const otherMenu = otherDropdown.querySelector('.dropdown-menu');
+                        if (otherMenu && otherMenu !== menu) {
+                            otherMenu.style.display = 'none';
+                        }
+                    });
+                    menu.style.display = 'block';
+                }
+            });
+        }
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (menu) {
+                    menu.style.display = 'none';
+                }
+            });
+        }
+    });
+});
+</script>

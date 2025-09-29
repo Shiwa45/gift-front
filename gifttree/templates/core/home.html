@@ -1,0 +1,894 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ site_settings.site_name|default:"GiftTree" }} - Send Flowers, Cakes & Gifts Online{% endblock %}
+
+{% block content %}
+<!-- Enhanced Mobile & Desktop Slider -->
+<div class="mobile-slider">
+    <div class="slider-container" id="sliderContainer">
+        {% for banner in banner_images %}
+            <div class="slide slide-{{ forloop.counter }}" style="background-image: url('{{ banner.image.url }}');">
+            </div>
+        {% empty %}
+            <div class="slide slide-1" style="background-image: url('{% static 'images/banner/banner.jpeg' %}');">
+            </div>
+            <div class="slide slide-2" style="background-image: url('{% static 'images/banner/banner2.jpg' %}');">
+            </div>
+            <div class="slide slide-3" style="background-image: url('{% static 'images/banner/banner3.jpg' %}');">
+            </div>
+            <div class="slide slide-4" style="background-image: url('{% static 'images/banner/banner4.jpg' %}');">
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="slider-dots">
+        {% for banner in banner_images %}
+            <span class="dot {% if forloop.first %}active{% endif %}" onclick="showSlide({{ forloop.counter0 }})"></span>
+        {% empty %}
+            <span class="dot active" onclick="showSlide(0)"></span>
+            <span class="dot" onclick="showSlide(1)"></span>
+            <span class="dot" onclick="showSlide(2)"></span>
+            <span class="dot" onclick="showSlide(3)"></span>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Quick Actions Grid -->
+<div class="quick-actions">
+    <div class="actions-grid">
+        {% for category in quick_categories %}
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                    {% else %}
+                        <img src="{% static 'images/category/' %}{{ category.slug }}.{% if category.slug == 'birthday' %}png{% else %}{% if category.slug == 'anniversary' %}jpg{% else %}webp{% endif %}{% endif %}" alt="{{ category.name }}">
+                    {% endif %}
+                </div>
+                <span class="action-label">{{ category.name }}</span>
+            </a>
+        {% empty %}
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/birthday.png' %}" alt="Birthday">
+                </div>
+                <span class="action-label">Birthday</span>
+            </a>
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/Anniversary.jpg' %}" alt="Anniversary">
+                </div>
+                <span class="action-label">Anniversary</span>
+            </a>
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/flowers.webp' %}" alt="Flowers">
+                </div>
+                <span class="action-label">Flowers</span>
+            </a>
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/gifts.webp' %}" alt="Gifts">
+                </div>
+                <span class="action-label">Gifts</span>
+            </a>
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/cake.webp' %}" alt="Cakes">
+                </div>
+                <span class="action-label">Cakes</span>
+            </a>
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/plant.webp' %}" alt="Plants">
+                </div>
+                <span class="action-label">Plants</span>
+            </a>
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/combo.webp' %}" alt="Combos">
+                </div>
+                <span class="action-label">Combos</span>
+            </a>
+            <a href="{% url 'products:product_list' %}" class="action-item">
+                <div class="action-icon">
+                    <img src="{% static 'images/category/flowers.webp' %}" alt="Valentine">
+                </div>
+                <span class="action-label">Valentine</span>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Featured Products Section -->
+<div class="section">
+    <div class="section-header">
+        <h2 class="section-title">Featured Products</h2>
+        <a href="{% url 'products:product_list' %}" class="section-link">View All →</a>
+    </div>
+    <div class="products-scroll">
+        <div class="products-row">
+            {% if featured_products %}
+                {% for product in featured_products %}
+                    <div class="product-card-mobile">
+                        <img src="{{ product.image.url|default:'https://via.placeholder.com/160x160' }}" alt="{{ product.name }}" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">{{ product.name }}</div>
+                            <div class="product-price">₹{{ product.price }}</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Sample Featured Products -->
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/red-roses.jpg' %}" alt="Premium Red Roses" class="product-image" onerror="this.src='{{ STATIC_URL }}images/rose.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Premium Red Roses Bouquet</div>
+                        <div class="product-price">₹1,299</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/chocolate-cake.jpg' %}" alt="Chocolate Truffle Cake" class="product-image" onerror="this.src='{{ STATIC_URL }}images/chocko cake.jpg'">
+                    <div class="product-info">
+                        <div class="product-name">Chocolate Truffle Cake</div>
+                        <div class="product-price">₹899</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/premium-watch.jpg' %}" alt="Premium Watch" class="product-image" onerror="this.src='{{ STATIC_URL }}images/watch.jpg'">
+                    <div class="product-info">
+                        <div class="product-name">Premium Watch Set</div>
+                        <div class="product-price">₹3,499</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/gift-hamper.jpg' %}" alt="Special Gift Hamper" class="product-image" onerror="this.src='{{ STATIC_URL }}images/gift.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Special Gift Hamper</div>
+                        <div class="product-price">₹2,199</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/perfume-set.jpg' %}" alt="Luxury Perfume Set" class="product-image" onerror="this.src='{{ STATIC_URL }}images/perfume.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Luxury Perfume Set</div>
+                        <div class="product-price">₹2,799</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/teddy-bear.jpg' %}" alt="Cute Teddy Bear" class="product-image" onerror="this.src='{{ STATIC_URL }}images/teddy.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Cute Teddy Bear</div>
+                        <div class="product-price">₹799</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Best Sellers Section -->
+<div class="section">
+    <div class="section-header">
+        <h2 class="section-title">Best Sellers</h2>
+        <a href="{% url 'products:product_list' %}?filter=bestseller" class="section-link">View All →</a>
+    </div>
+    <div class="products-scroll">
+        <div class="products-row">
+            {% if bestseller_products %}
+                {% for product in bestseller_products %}
+                    <div class="product-card-mobile">
+                        <img src="{{ product.image.url|default:'https://via.placeholder.com/160x160' }}" alt="{{ product.name }}" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">{{ product.name }}</div>
+                            <div class="product-price">₹{{ product.price }}</div>
+                            <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Sample Best Seller Products -->
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/valentine-combo.jpg' %}" alt="Valentine Special Combo" class="product-image" onerror="this.src='{{ STATIC_URL }}images/rose.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Valentine Special Combo</div>
+                        <div class="product-price">₹1,899</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/birthday-cake.jpg' %}" alt="Birthday Special Cake" class="product-image" onerror="this.src='{{ STATIC_URL }}images/chocko cake.jpg'">
+                    <div class="product-info">
+                        <div class="product-name">Birthday Special Cake</div>
+                        <div class="product-price">₹1,199</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/money-plant.jpg' %}" alt="Lucky Money Plant" class="product-image" onerror="this.src='{{ STATIC_URL }}images/bomboo.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Lucky Money Plant</div>
+                        <div class="product-price">₹599</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/anniversary-flowers.jpg' %}" alt="Anniversary Flowers" class="product-image" onerror="this.src='{{ STATIC_URL }}images/rose.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Anniversary Flower Bouquet</div>
+                        <div class="product-price">₹1,599</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/combo-gift.jpg' %}" alt="Premium Combo Gift" class="product-image" onerror="this.src='{{ STATIC_URL }}images/gift.webp'">
+                    <div class="product-info">
+                        <div class="product-name">Premium Combo Gift</div>
+                        <div class="product-price">₹2,999</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile">
+                    <img src="{% static 'images/products/fruit-cake.jpg' %}" alt="Fresh Fruit Cake" class="product-image" onerror="this.src='{{ STATIC_URL }}images/chocko cake.jpg'">
+                    <div class="product-info">
+                        <div class="product-name">Fresh Fruit Cake</div>
+                        <div class="product-price">₹999</div>
+                        <button class="add-btn" onclick="addToCart()">ADD TO CART</button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Shop by Occasion Section -->
+<div class="section" style="background: #f8f9fa;">
+    <div class="section-header">
+        <h2 class="section-title">Shop by Occasion</h2>
+        <a href="{% url 'products:product_list' %}" class="section-link">View All →</a>
+    </div>
+    <div class="products-scroll">
+        <div class="products-row">
+            {% if main_categories %}
+                {% for category in main_categories|slice:":8" %}
+                    <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                        {% if category.image %}
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="product-image">
+                        {% else %}
+                            <img src="{% static 'images/category/' %}{{ category.slug }}.{% if category.slug == 'birthday' %}png{% else %}{% if category.slug == 'anniversary' %}jpg{% else %}webp{% endif %}{% endif %}" alt="{{ category.name }}" class="product-image">
+                        {% endif %}
+                        <div class="product-info">
+                            <div class="product-name">{{ category.name }}</div>
+                            <div class="product-price">Starting ₹{{ category.min_price|default:"299" }}</div>
+                            <button class="add-btn">Shop Now</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Sample Occasion Categories -->
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/birthday.png' %}" alt="Birthday Specials" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Birthday Specials</div>
+                        <div class="product-price">Starting ₹299</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/Anniversary.jpg' %}" alt="Anniversary Combos" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Anniversary Combos</div>
+                        <div class="product-price">Starting ₹599</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/flowers.webp' %}" alt="Valentine Special" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Valentine Special</div>
+                        <div class="product-price">Starting ₹499</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/combo.webp' %}" alt="Wedding Collection" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Wedding Collection</div>
+                        <div class="product-price">Starting ₹999</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/cake.webp' %}" alt="Festival Cakes" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Festival Cakes</div>
+                        <div class="product-price">Starting ₹699</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/gifts.webp' %}" alt="Congratulations Gifts" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Congratulations Gifts</div>
+                        <div class="product-price">Starting ₹799</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/plant.webp' %}" alt="Housewarming Plants" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Housewarming Plants</div>
+                        <div class="product-price">Starting ₹399</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+                <div class="product-card-mobile" onclick="window.location.href='{% url 'products:product_list' %}'">
+                    <img src="{% static 'images/category/flowers.webp' %}" alt="Get Well Soon" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">Get Well Soon</div>
+                        <div class="product-price">Starting ₹349</div>
+                        <button class="add-btn">Shop Now</button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Desktop Featured Categories (Hidden on Mobile) -->
+<section id="featured-categories" class="py-5 bg-light desktop-only">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Shop by Category</h2>
+            <p class="lead text-muted">Discover our wide range of products for every occasion</p>
+        </div>
+        <div class="row g-4">
+            {% for category in main_categories|slice:":3" %}
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm category-card">
+                        {% if category.image %}
+                            <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}" style="height: 250px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'images/category/' %}{{ category.slug }}.{% if category.slug == 'birthday' %}png{% else %}{% if category.slug == 'anniversary' %}jpg{% else %}webp{% endif %}{% endif %}" class="card-img-top" alt="{{ category.name }}" style="height: 250px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ category.name }}</h5>
+                            <p class="card-text">{{ category.description|default:"Perfect for every occasion" }}</p>
+                            <a href="{% url 'products:category_detail' category.slug %}" class="btn btn-primary">Shop {{ category.name }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm category-card">
+                        <img src="{% static 'images/category/flowers.webp' %}" class="card-img-top" alt="Flowers" style="height: 250px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Fresh Flowers</h5>
+                            <p class="card-text">Beautiful bouquets for every occasion</p>
+                            <a href="{% url 'products:category_detail' 'flowers' %}" class="btn btn-primary">Shop Flowers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm category-card">
+                        <img src="{% static 'images/category/cake.webp' %}" class="card-img-top" alt="Cakes" style="height: 250px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Delicious Cakes</h5>
+                            <p class="card-text">Freshly baked cakes for celebrations</p>
+                            <a href="{% url 'products:category_detail' 'cakes' %}" class="btn btn-primary">Shop Cakes</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm category-card">
+                        <img src="{% static 'images/category/gifts.webp' %}" class="card-img-top" alt="Gifts" style="height: 250px; object-fit: cover;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Thoughtful Gifts</h5>
+                            <p class="card-text">Perfect gifts for your loved ones</p>
+                            <a href="{% url 'products:category_detail' 'gifts' %}" class="btn btn-primary">Shop Gifts</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Features Section (Desktop Only) -->
+<section class="py-5 desktop-only">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-shipping-fast fa-3x text-primary"></i>
+                </div>
+                <h5>Same Day Delivery</h5>
+                <p class="text-muted">Quick and reliable delivery across the city</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-leaf fa-3x text-success"></i>
+                </div>
+                <h5>Fresh Products</h5>
+                <p class="text-muted">Always fresh flowers and premium quality gifts</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-shield-alt fa-3x text-info"></i>
+                </div>
+                <h5>Secure Payment</h5>
+                <p class="text-muted">100% secure payment with multiple options</p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-headset fa-3x text-warning"></i>
+                </div>
+                <h5>24/7 Support</h5>
+                <p class="text-muted">Customer support available round the clock</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white desktop-only">
+    <div class="container text-center">
+        <h2 class="display-6 fw-bold mb-4">Ready to Make Someone's Day Special?</h2>
+        <p class="lead mb-4">Browse our collection of beautiful flowers, delicious cakes, and thoughtful gifts</p>
+        <a href="{% url 'products:product_list' %}" class="btn btn-light btn-lg px-5">Start Shopping</a>
+    </div>
+</section>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Enhanced UI Styles */
+:root {
+    --primary-color: #E91E63;
+    --secondary-color: #4CAF50;
+    --accent-color: #FF9800;
+    --text-dark: #333;
+    --text-light: #666;
+    --pink-gradient: linear-gradient(135deg, #E91E63 0%, #FF6090 100%);
+}
+
+/* Enhanced Mobile Slider */
+.mobile-slider {
+    background: white;
+    margin: 16px;
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.slider-container {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    height: 100%;
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+.slider-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 3;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.dot.active {
+    background: white;
+    width: 32px;
+    border-radius: 8px;
+}
+
+/* Enhanced Quick Actions */
+.quick-actions {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 32px 16px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.quick-actions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #E91E63 0%, #FF6090 50%, #4CAF50 100%);
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-dark);
+    transition: transform 0.3s ease;
+    padding: 8px;
+    border-radius: 16px;
+}
+
+.action-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    color: var(--primary-color);
+}
+
+.action-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #E91E63 0%, #FF6090 100%);
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(233, 30, 99, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.action-item:hover .action-icon {
+    transform: rotate(5deg) scale(1.1);
+}
+
+.action-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.action-label {
+    font-size: 13px;
+    text-align: center;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* Enhanced Sections */
+.section {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    margin: 16px;
+    padding: 32px 0;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #E91E63 0%, #FF6090 50%, #4CAF50 100%);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.section-link {
+    color: var(--primary-color);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.section-link:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Enhanced Product Cards */
+.products-scroll {
+    overflow-x: auto;
+    padding: 0 24px;
+}
+
+.products-row {
+    display: flex;
+    gap: 20px;
+}
+
+.product-card-mobile {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    flex-shrink: 0;
+    width: 160px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.product-card-mobile:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.product-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card-mobile:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 16px;
+}
+
+.product-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.add-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #FF6090 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(233, 30, 99, 0.4);
+}
+
+/* Desktop Responsive */
+@media (min-width: 992px) {
+    .mobile-slider {
+        height: 450px;
+        margin: 24px;
+        border-radius: 24px;
+    }
+
+
+    .section {
+        margin: 24px;
+        padding: 40px 0;
+    }
+
+    .actions-grid {
+        grid-template-columns: repeat(8, 1fr);
+        gap: 30px;
+    }
+
+    .action-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .products-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .product-card-mobile {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .actions-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .action-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .action-label {
+        font-size: 11px;
+    }
+
+    .mobile-slider {
+        height: 200px;
+    }
+
+}
+</style>
+{% endblock %}
+
+{% block page_js %}
+<script>
+// Initialize home page functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize slider if it exists
+    initializeSlider();
+    
+    // Add click handlers for quick action items
+    const actionItems = document.querySelectorAll('.action-item');
+    actionItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            // Add loading state
+            const icon = this.querySelector('.action-icon');
+            if (icon) {
+                icon.style.opacity = '0.7';
+                icon.style.transform = 'scale(0.95)';
+            }
+        });
+    });
+    
+    // Lazy load product images
+    const productImages = document.querySelectorAll('.product-image[loading="lazy"]');
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src || img.src;
+                    img.classList.remove('lazy');
+                    observer.unobserve(img);
+                }
+            });
+        });
+        
+        productImages.forEach(img => imageObserver.observe(img));
+    }
+});
+
+// Enhanced slider functionality
+let currentSlide = 0;
+const totalSlides = 4;
+
+function showSlide(index) {
+    const sliderContainer = document.getElementById('sliderContainer');
+    const dots = document.querySelectorAll('.dot');
+
+    if (sliderContainer && dots.length > 0) {
+        sliderContainer.style.transform = `translateX(-${index * 100}%)`;
+
+        dots.forEach(dot => dot.classList.remove('active'));
+        if (dots[index]) {
+            dots[index].classList.add('active');
+        }
+
+        currentSlide = index;
+    }
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+}
+
+// Auto-slide every 5 seconds
+setInterval(nextSlide, 5000);
+
+// Initialize slider on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up dot click handlers
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => showSlide(index));
+    });
+
+    // Touch gesture support for mobile
+    const slider = document.getElementById('sliderContainer');
+    if (slider) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slider.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        slider.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                showSlide(currentSlide);
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
